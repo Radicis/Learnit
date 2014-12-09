@@ -7,7 +7,7 @@
         <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1">
 
         <link rel="stylesheet" href="static/css/main.css">
-
+		
         <script src="static/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
@@ -34,21 +34,35 @@
 		<div class="main-content"><!-- Begin content area --->
 			<div class="right-content">
 				<div class="right-user">
-					<div class="user">
-						<strong> {{ user }}</strong>
-						<a href={{ logout_url }} >Logout</a>
+					<div class="user">						
+						{% if user %}
+							<strong> {{ user }} | </strong>
+							<a href={{ logout_url }} >Logout</a>
+						{% else %}
+							<strong>Not Logged in | </strong>
+							<a href="{{ login_url }}">Login<a>
+						{% endif %}
 					</div>
 				</div>
 				<div class="right-make-post">
-					<h3>Make a Post!</h3>
-					<a href="/post?type=post">Post a Text Post</a><br>
-					<a href="/post?type=link">Post a Link</a><br>
-					<a href="/post?type=question">Ask a question</a>
+					<div id="makepost"><h2>Make a Post!</h2></div>
+					<div id="right-make-post-inner" class="hidden">
+						<a href="/post?type=post">Post a Text Post</a><br>
+						<a href="/post?type=link">Post a Link</a><br>
+						<a href="/post?type=question">Ask a question</a>
+					</div>
 				</div><!-- End right post --->
 				<div class="right-body">
 					<p>
 						<h2>Rules</h2>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at malesuada metus, ac blandit ex. Etiam ullamcorper aliquet turpis vitae dapibus. Donec accumsan justo blandit iaculis facilisis. Vestibulum blandit diam ac metus venenatis, et placerat ex rutrum. Vivamus vitae augue nec augue ornare condimentum nec at elit. Integer vel magna at massa facilisis fermentum sed class sapien. Suspendisse eleifend consequat mattis. Vivamus ac tempor tellus. 
+						Here are some  helpful rules to make everyone's stay better:
+						<ul>
+							<li>Don't be douche</li>
+							<li>Don't post porn</li>
+							<li>Don't harass users</li>
+							<li>Don't harass admins</li>
+							<li>Keep it classy</li>
+						</ul>
 					</p>
 				</div><!-- End right body --->
 			</div><!-- End right content --->

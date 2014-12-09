@@ -45,9 +45,9 @@ class MainHandler(webapp2.RequestHandler):
 		
 		user = users.get_current_user()	
 		
-		posts_title = 'Latest'		
-		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
+		posts_title = 'Latest'	
+
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/'), 'login_url': users.create_login_url(self.request.uri)})	
 			
 		posts = Post.all().order('-posted').fetch(1000)
 		#query().order
@@ -83,6 +83,8 @@ class WritePost(webapp2.RequestHandler):
 class MakePost(webapp2.RequestHandler):
 	def post(self):
 		
+		user = users.get_current_user()
+		
 		type = self.request.get('type')		
 		
 		post_title = self.request.get('title',default_value='') 
@@ -103,7 +105,10 @@ class MakePost(webapp2.RequestHandler):
 		
 		time.sleep(3) # wait for 3s to allow for entry to be added so it displays on redirect
 		
-		self.redirect('/')
+		posts = Post.all().filter('uploaded_by =', user).order('-posted').fetch(1000)
+		
+		
+		self.redirect('/view?post=' + str(posts[0].key().id()))
 
 class AddComment(webapp2.RequestHandler):
 	def post(self):
