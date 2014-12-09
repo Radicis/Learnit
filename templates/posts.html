@@ -1,10 +1,8 @@
-<h2>{{ posts_title.title }}</h2>
-
 	<ul class="posts">
 		{% for post in posts %}
 			<li class="{{ post.type }}">
 				{% if post.type == 'link' %}
-					<a href="{{ post.url }}" target="_blank"><h3>{{ post.title|truncatewords:"10" }}</h3></a>
+					<a href="{{ post.url }}" target="_blank"><h3>{{ post.title|slice:"40" }}</h3></a>
 				{% else %}
 					<a href="/view?post={{ post.key.id }}"><h3>{{ post.title|truncatewords:"10" }}</h3></a>
 				{% endif %}

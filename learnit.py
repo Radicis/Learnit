@@ -1,5 +1,5 @@
 import os
-import urllib
+import urllib2
 import webapp2
 import time
 from google.appengine.api import images
@@ -7,6 +7,12 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import db
 #from time import strftime
+from google.appengine.api import urlfetch
+
+import sys
+sys.path.insert(0, 'libs')
+
+from bs4 import BeautifulSoup
 
 # --- Datastore declarations --- #
  
@@ -41,31 +47,18 @@ class MainHandler(webapp2.RequestHandler):
 		
 		posts_title = 'Latest'		
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})	
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
 			
 		posts = Post.all().fetch(1000)	
 		#query().order
 
-		html += template.render('templates/posts.html', {'posts_title': posts_title, 'posts':posts})
+		html += template.render('templates/posts.html', {'posts':posts})
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
 #		else:
 			#self.redirect(users.create_login_url(self.request.uri))
-	def post(self):
-		user = users.get_current_user()
-		searchTerm = self.request.get('search')
-		
-		posts_title = "Search Results"
-		
-		posts = Post.all().filter('tags =', searchTerm).fetch(1000)
-		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
-		
-		html += template.render('templates/posts.html', {'posts_title': posts_title, 'posts':posts})
-		
-		html += template.render('templates/footer.html', {})
-		
-		self.response.write(html)
+			
+
 			
 class WritePost(webapp2.RequestHandler):
 	def get(self):
@@ -94,11 +87,15 @@ class MakePost(webapp2.RequestHandler):
 		
 		post_title = self.request.get('title',default_value='') 
 		post_body = self.request.get('body',default_value='') 
-		post_tags = self.request.get('tags',default_value='').split()
+		post_tags = self.request.get('tags',default_value='').lower().split()
 
 		if type == 'link':
 			url = post_title
-			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user(), url=url)
+			response = urllib2.urlopen(url)
+			html = response.read()	
+			soup = BeautifulSoup(html)		
+			title = str(soup.title.string)
+			post_info = Post(type=type, title=title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user(), url=url)
 		else:
 			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user())	
 		
@@ -134,7 +131,7 @@ class ViewPost(webapp2.RequestHandler):
 		post = Post.get_by_id(post_id)
 		user = users.get_current_user()
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
+		html = template.render('templates/index.html', {'posts_title': post.title, 'user': user, 'logout_url': users.create_logout_url('/')})
 		
 		comments = Comment.all().filter('parent_post =', post.key().id()).fetch(1000)
 		
@@ -151,11 +148,11 @@ class Unanswered(webapp2.RequestHandler):
 		posts_title = 'Unanswered'		
 		post_type = 'question'
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})	
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
 		#watch the space before = it is needed
 		posts = Post.all().filter('type =', post_type).filter('answered =', False).fetch(10000)
 		
-		html += template.render('templates/posts.html', {'posts_title': posts_title, 'posts':posts})
+		html += template.render('templates/posts.html', {'posts':posts})
 		
 		html += template.render('templates/footer.html', {})
 		
@@ -166,7 +163,7 @@ class ViewTags(webapp2.RequestHandler):
 		user = users.get_current_user()
 		posts_title = "Tags"
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 		
 		posts = Post.all().fetch(1000)
 		
@@ -191,12 +188,12 @@ class ViewTag(webapp2.RequestHandler):
 		
 		posts_title = tag
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 			
 		posts = Post.all().filter('tags = ', tag)
 		posts.fetch(10)
 		
-		html += template.render('templates/posts.html', {'posts_title': posts_title, 'posts':posts})
+		html += template.render('templates/posts.html', {'posts':posts})
 		
 		html += template.render('templates/footer.html', {})
 		
@@ -205,14 +202,16 @@ class ViewTag(webapp2.RequestHandler):
 		
 class Search(webapp2.RequestHandler):
 	def post(self):
+		user = users.get_current_user()
+		searchTerm = self.request.get('search').lower()
 		
-		searchTerm = self.request.get('search')
+		posts_title = "Search Results"
 		
-		posts = Post.all().filter('tags =#', searchTerm).fetch(1000)
+		posts = Post.all().filter('tags =', searchTerm).fetch(1000)
 		
-		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 		
-		html += template.render('templates/posts.html', {'posts_title': posts_title, 'posts':posts})
+		html += template.render('templates/posts.html', {'posts':posts})
 		
 		html += template.render('templates/footer.html', {})
 		
@@ -225,12 +224,23 @@ class DeletePost(webapp2.RequestHandler):
 		
 class About(webapp2.RequestHandler):
 	def get(self):
-		pass
+		user = users.get_current_user()
+		
+		posts_title = "About"		
+				
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		
+		html += template.render('templates/about.html', {})
+		
+		html += template.render('templates/footer.html', {})
+		
+		self.response.write(html)
 		
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/post', WritePost),
 							   ('/makepost', MakePost),
 							   ('/comment', AddComment),
+							   ('/search', Search),
 							   ('/view', ViewPost),
 							   ('/delete', DeletePost),							   
 							   ('/unanswered', Unanswered),
