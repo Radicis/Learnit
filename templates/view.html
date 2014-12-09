@@ -10,7 +10,7 @@
 {% for comment in comments %}
 	{% if comment.parent_comment == 1 %}
 		<div class="comment">
-			<p><pre>{{ comment.body }}</pre>
+			<p>{{ comment.body }}
 			<span class="comment-posted">Posted by: {{ comment.posted_by }}</span></p>
 			<form id="comment-nest-form" action="/comment" method="POST" enctype="multipart/form-data">
 				<textarea name="body" rows="1" cols="30" placeholder="Post comment here"></textarea><br>

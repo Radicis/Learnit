@@ -49,7 +49,7 @@ class MainHandler(webapp2.RequestHandler):
 		
 		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
 			
-		posts = Post.all().fetch(1000)	
+		posts = Post.all().order('-posted').fetch(1000)
 		#query().order
 
 		html += template.render('templates/posts.html', {'posts':posts})
@@ -150,7 +150,7 @@ class Unanswered(webapp2.RequestHandler):
 		
 		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
 		#watch the space before = it is needed
-		posts = Post.all().filter('type =', post_type).filter('answered =', False).fetch(10000)
+		posts = Post.all().filter('type =', post_type).filter('answered =', False).order('-posted').fetch(10000)
 		
 		html += template.render('templates/posts.html', {'posts':posts})
 		
@@ -165,7 +165,7 @@ class ViewTags(webapp2.RequestHandler):
 		
 		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 		
-		posts = Post.all().fetch(1000)
+		posts = Post.all().order('-posted').fetch(1000)
 		
 		tags = []
 		
@@ -190,8 +190,7 @@ class ViewTag(webapp2.RequestHandler):
 		
 		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 			
-		posts = Post.all().filter('tags = ', tag)
-		posts.fetch(10)
+		posts = Post.all().filter('tags = ', tag).order('-posted').fetch(10)
 		
 		html += template.render('templates/posts.html', {'posts':posts})
 		
@@ -207,7 +206,7 @@ class Search(webapp2.RequestHandler):
 		
 		posts_title = "Search Results"
 		
-		posts = Post.all().filter('tags =', searchTerm).fetch(1000)
+		posts = Post.all().filter('tags =', searchTerm).order('-posted').fetch(1000)
 		
 		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
 		
@@ -221,6 +220,22 @@ class Search(webapp2.RequestHandler):
 class DeletePost(webapp2.RequestHandler):
 	def post(self):
 		pass
+
+class MyQuestions(webapp2.RequestHandler):
+	def get(self):
+		user = users.get_current_user()
+		
+		posts_title = "My Questions"
+		
+		posts = Post.all().filter('uploaded_by =', user).order('-posted').fetch(1000)
+		
+		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		
+		html += template.render('templates/posts.html', {'posts':posts})
+		
+		html += template.render('templates/footer.html', {})
+		
+		self.response.write(html)
 		
 class About(webapp2.RequestHandler):
 	def get(self):
@@ -244,6 +259,7 @@ app = webapp2.WSGIApplication([('/', MainHandler),
 							   ('/view', ViewPost),
 							   ('/delete', DeletePost),							   
 							   ('/unanswered', Unanswered),
+							   ('/myquestions', MyQuestions),
 							   ('/tags', ViewTags),	
 							   ('/tag', ViewTag),
 							   ('/about', About),							   
