@@ -13,11 +13,13 @@ from google.appengine.ext import db
 class Post(db.Model):
 	uploaded_by = db.UserProperty(required=True)		
 	title = db.StringProperty(required=True)
-	body = db.TextProperty()	 
+	body = db.TextProperty()
+	url = db.LinkProperty()
 	tags = db.StringListProperty(required=True)
 	posted = db.DateTimeProperty(required=True, auto_now_add=True)
 	answered = db.BooleanProperty(default=False)
 	type = db.StringProperty(required=True)
+	comments = db.IntegerProperty(default=0)
 
 class Comment(db.Model):
 	posted_by = db.UserProperty(required=True)
@@ -92,9 +94,13 @@ class MakePost(webapp2.RequestHandler):
 		
 		post_title = self.request.get('title',default_value='') 
 		post_body = self.request.get('body',default_value='') 
-		post_tags = self.request.get('tags',default_value='').split()	
+		post_tags = self.request.get('tags',default_value='').split()
 
-		post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user())	
+		if type == 'link':
+			url = post_title
+			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user(), url=url)
+		else:
+			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user())	
 		
 		db.put(post_info)
 		
@@ -111,8 +117,12 @@ class AddComment(webapp2.RequestHandler):
 		parent = long(self.request.get('parent', default_value=1))
 		parent_comment = long(self.request.get('parent_comment', default_value=1))		
 		comment_info = Comment(posted_by=user, body=body, parent_post=parent, parent_comment=parent_comment)
-		time.sleep(3)
 		db.put(comment_info)
+		post = Post.get_by_id(parent)
+		comments = post.comments +1
+		post.comments = comments 
+		post.put()
+		time.sleep(3)
 		self.redirect('/view?post=' + str(parent))
 		
 class ViewPost(webapp2.RequestHandler):

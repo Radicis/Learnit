@@ -1,6 +1,7 @@
 <h2>{{ post.title }}</h2>
+
 <p>{{ post.body }}</p>
-<span>{{ post.posted }} </span>
+<span>Posted by <strong> {{ post.uploaded_by }} </strong> on <em>{{ post.posted }}</em> </span>
 
 <form id="comment-form" action="/comment" method="POST" enctype="multipart/form-data">
 	<textarea name="body" rows="5" cols="30" placeholder="Post comment here"></textarea><br>
@@ -11,7 +12,7 @@
 {% for comment in comments %}
 	{% if comment.parent_comment == 1 %}
 		<div class="comment">
-			<p>{{ comment.body }}
+			<p><pre>{{ comment.body }}</pre>
 			<span class="comment-posted">Posted by: {{ comment.posted_by }}</span></p>
 			<form id="comment-nest-form" action="/comment" method="POST" enctype="multipart/form-data">
 				<textarea name="body" rows="1" cols="30" placeholder="Post comment here"></textarea><br>

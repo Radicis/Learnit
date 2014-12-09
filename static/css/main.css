@@ -6,7 +6,7 @@ body{
 	font-family: 'Open Sans', sans-serif;
 	font-weight:400;
 	color:#2a2a2a;
-	background-color:#FFF3F0;
+	background-color:#fff;
 	
 }
 
@@ -89,6 +89,7 @@ header nav ul li{
 header nav ul li a{
 	display:block;
 	line-height:3em;
+	font-weight:700;
 }
 
 
@@ -115,8 +116,7 @@ header nav ul li a{
 .main-content{
 	margin:auto;
 	width:90%;
-	padding-top:10px;
-	min-height:500px;
+	padding-top:10px;	
 }
 
 .right-content{
@@ -126,7 +126,7 @@ header nav ul li a{
 }
 
 .posts-container{
-	margin-right:22%;
+	margin-right:25%;
 }
 
 .posts-container ul{
@@ -140,15 +140,14 @@ header nav ul li a{
 .posts li{
 	position:relative;
 	border:1px groove #999;
-	margin-bottom:5px;
-	padding:10px;
+	margin-bottom:8px;
+	padding:5px 0 5px 10px;
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
 	-webkit-box-shadow: #ccc 0 1px 0;
 	-moz-box-shadow: #ccc 0 1px 0;
-	box-shadow: #ccc 0 1px 0;
-	
+	box-shadow: #ccc 0 1px 0;	
 	background: -moz-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%, rgba(216,225,231,0.39) 50%, rgba(181,198,208,0.39) 51%, rgba(224,239,249,0.26) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(242,246,248,0.52)), color-stop(50%,rgba(216,225,231,0.39)), color-stop(51%,rgba(181,198,208,0.39)), color-stop(100%,rgba(224,239,249,0.26))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* Chrome10+,Safari5.1+ */
@@ -161,12 +160,15 @@ header nav ul li a{
 
 .posts h3{
 	font-size:1.5em;
+	padding-bottom:5px;
 }
 
 .post-info{
 	float:right;
-	position:relative;
-	bottom:10px
+	position:relative;	
+	right:5px;
+	bottom:-5px;
+	display:block;
 }
 
 .posts .post-time{
@@ -193,32 +195,54 @@ header nav ul li a{
 
 .posts .post{
 	background: #e8eaec;
+	overflow:hidden;
 }
 .posts .question{
 	background-color:#EBF5CC;
+	overflow:hidden;
 }
 .posts .link{
 	background-color:#FFE6E6;
+	overflow:hidden;
 }
 
 .posts .post-tags{
 	font-size:.8em;
-	margin-top:5px;
+	float:left;
+	padding-top:5px;
 }
 
+.posts .post-comments{
+	float:left;
+	font-size:.8em;
+	padding-top:5px;
+	padding-right:10px;
+	
+}
+
+.posts .post-comments a{
+	font-weight:700;
+}
 
 .posts .post-tags a{
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
-	border:1px solid #ccc;
-	-webkit-box-shadow: #ccc 0 1px 0;
-	-moz-box-shadow: #ccc 0 1px 0;
-	box-shadow: #ccc 0 1px 0;
+	border:1px solid #999;
+	-webkit-box-shadow: #999 0 1px 0;
+	-moz-box-shadow: #999 0 1px 0;
+	box-shadow: #999 0 1px 0;
 	background-color:#fff;
-	padding:3px;
-	margin:3px;
+	padding:0 4px 0 4px;
+	margin:3px;	
 	
+		background: -moz-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%, rgba(216,225,231,0.39) 50%, rgba(181,198,208,0.39) 51%, rgba(224,239,249,0.26) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(242,246,248,0.52)), color-stop(50%,rgba(216,225,231,0.39)), color-stop(51%,rgba(181,198,208,0.39)), color-stop(100%,rgba(224,239,249,0.26))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* IE10+ */
+	background: linear-gradient(135deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#85f2f6f8', endColorstr='#42e0eff9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .comment-posted{
@@ -265,15 +289,15 @@ header nav ul li a{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#85f2f6f8', endColorstr='#42e0eff9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-.comment-container{
-
-}
-
 footer{
 	clear:both;
 	text-align:center;
 	border-top:1px solid #ccc;
 	font-size:0.75em;
+	border:1px groove #ccc;
+	padding:5px;
+
+
 }
 
 
