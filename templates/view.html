@@ -1,5 +1,6 @@
 <p id="post-body">{{ post.body }}</p>
 <span>Posted by <strong> {{ post.uploaded_by }} </strong> on <em>{{ post.posted }}</em> </span>
+<div class="likes">Likes: {{ post.likes }} | <a href="/like?id={{ post.key.id }}">Like This Post</a><div>
 
 <form id="comment-form" action="/comment" method="POST" enctype="multipart/form-data">
 	<textarea name="body" rows="5" cols="30" placeholder="Post comment here"></textarea><br>

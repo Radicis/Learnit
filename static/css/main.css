@@ -20,8 +20,10 @@ body{
 
 a{
 	text-decoration:none;
-	outline: 0;
 	color:#4775FF;
+}
+a:focus{
+	outline:0;
 }
 
 a:hover{
@@ -39,6 +41,7 @@ h1{
 }
 h2{
 	font-size:1.5em;
+	color:#999;
 }
 h3{
 	font-size:1.2em;
@@ -142,7 +145,7 @@ header nav ul li a{
 	text-align:center;
 }
 
-#makepost{
+#makepost h2{
 	color:#4775FF;
 	cursor:pointer;
 }
@@ -221,6 +224,9 @@ header nav ul li a{
 	padding-bottom:5px;
 }
 
+.post-likes{
+	font-size:.8em;
+}
 .post-info{
 	float:right;
 	position:relative;	

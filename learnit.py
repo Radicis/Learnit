@@ -26,6 +26,8 @@ class Post(db.Model):
 	answered = db.BooleanProperty(default=False)
 	type = db.StringProperty(required=True)
 	comments = db.IntegerProperty(default=0)
+	likes = db.IntegerProperty(default=0)
+	liked_by = db.StringListProperty()
 
 class Comment(db.Model):
 	posted_by = db.UserProperty(required=True)
@@ -33,6 +35,7 @@ class Comment(db.Model):
 	parent_post = db.IntegerProperty(required=True)	
 	parent_comment = db.IntegerProperty()
 	posted = db.DateTimeProperty(required=True, auto_now_add=True)
+	likes = db.IntegerProperty(default=0)
 	
 class LearnUsers(db.Model):
 	pass
@@ -241,6 +244,29 @@ class MyQuestions(webapp2.RequestHandler):
 		html += template.render('templates/footer.html', {})
 		
 		self.response.write(html)
+
+class AddLike(webapp2.RequestHandler):
+	def get(self):
+		id = long(self.request.get('id'))
+		#type=self.request.get('type')
+		
+		user = users.get_current_user()
+		
+		#if type == 'post':
+		post = Post.get_by_id(id)
+		if user.user_id() in post.liked_by:
+			pass
+		else:
+			post.likes += 1
+			post.liked_by.append(user.user_id())
+			post.put()
+		'''elif type == 'comment':
+			comment = Comment.get_by_id(id)	
+			comment.likes += 1
+			comment.put()'''
+		#else:
+		#	pass
+		self.redirect('/view?post=' + str(id))
 		
 class About(webapp2.RequestHandler):
 	def get(self):
@@ -267,6 +293,7 @@ app = webapp2.WSGIApplication([('/', MainHandler),
 							   ('/myquestions', MyQuestions),
 							   ('/tags', ViewTags),	
 							   ('/tag', ViewTag),
+							   ('/like', AddLike),
 							   ('/about', About),							   
 							   ],
                               debug=True)

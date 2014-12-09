@@ -2,10 +2,11 @@
 		{% for post in posts %}
 			<li class="{{ post.type }}">
 				{% if post.type == 'link' %}
-					<a href="{{ post.url }}" target="_blank"><h3>{{ post.title|slice:"40" }}</h3></a>
+					<h3><a href="{{ post.url }}" target="_blank">{{ post.title|slice:"40" }}</a></h3>
 				{% else %}
-					<a href="/view?post={{ post.key.id }}"><h3>{{ post.title|truncatewords:"10" }}</h3></a>
+					<h3><a href="/view?post={{ post.key.id }}">{{ post.title|truncatewords:"10" }}</a></h3>
 				{% endif %}
+				<div class="post-likes">Likes: {{ post.likes }} | <a href="/like?id={{ post.key.id }}">Like This Post</a></div>
 				{% if post.body != "" %}
 					<div class="post-body">{{ post.body|truncatewords:"20" }} </div>
 				{% endif %}
