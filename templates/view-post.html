@@ -1,0 +1,10 @@
+<h2>{{ post.title }}</h2>
+<p>{{ post.body }}</p>
+<span>{{ post.posted }} </span>
+
+<form id="comment-form" action="/comment" method="POST" enctype="multipart/form-data">
+	<textarea name="body" rows="5" cols="30" placeholder="Post comment here"></textarea><br>
+	<input type="submit" name="submit" value="Save" class="button"> 
+	<input type="hidden" name="parent" value="{{ post.key.id }}">
+</form>	<!-- End Make post form -->
+<div class="comment-container">

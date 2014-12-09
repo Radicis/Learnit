@@ -102,6 +102,19 @@ class MakePost(webapp2.RequestHandler):
 		
 		self.redirect('/')
 
+class AddComment(webapp2.RequestHandler):
+	def post(self):
+		
+		#consider setting boolean hasChildren to each postcomment
+		user = users.get_current_user()
+		body = self.request.get('body')	
+		parent = long(self.request.get('parent', default_value=1))
+		parent_comment = long(self.request.get('parent_comment', default_value=1))		
+		comment_info = Comment(posted_by=user, body=body, parent_post=parent, parent_comment=parent_comment)
+		time.sleep(3)
+		db.put(comment_info)
+		self.redirect('/view?post=' + str(parent))
+		
 class ViewPost(webapp2.RequestHandler):
 	def get(self):
 		post_id = long(self.request.get('post'))
@@ -113,9 +126,11 @@ class ViewPost(webapp2.RequestHandler):
 		
 		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
 		
-		comments = Comment.all().filter('parent_post =', post_id)
+		comments = Comment.all().filter('parent_post =', post.key().id()).fetch(1000)
 		
 		html += template.render('templates/view.html', {'post':post, 'comments':comments})
+
+				
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
 		
@@ -193,16 +208,6 @@ class Search(webapp2.RequestHandler):
 		
 		self.response.write(html)
 		
-class AddComment(webapp2.RequestHandler):
-	def post(self):
-		
-		user = users.get_current_user()
-		body = self.request.get('body')	
-		parent = long(self.request.get('parent'))
-		comment_info = Comment(posted_by=user, body=body, parent_post=parent)
-		time.sleep(3)
-		db.put(comment_info)
-		self.redirect('/view?post=' + str(parent))
 		
 class DeletePost(webapp2.RequestHandler):
 	def post(self):

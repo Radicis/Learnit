@@ -1,0 +1,10 @@
+		<div class="comment">
+			<p>{{ comment.body }}
+			<span class="comment-posted">Posted by: {{ comment.posted_by }}</span></p>
+			<form id="comment-nest-form" action="/comment" method="POST" enctype="multipart/form-data">
+				<textarea name="body" rows="1" cols="30" placeholder="Post comment here"></textarea><br>
+				<input type="submit" name="submit" value="Save" class="button"> 
+				<input type="hidden" name="parent_comment" value="{{ comment.key.id }}">
+				<input type="hidden" name="parent" value="{{ post.key.id }}">
+			</form>	<!-- End Make post form -->	
+		</div>
