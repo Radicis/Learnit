@@ -1,0 +1,11 @@
+<h2>{{ posts_title }}</h2>
+
+	<ul class="tags">
+		{% for tag in tags %}
+			<li>
+				<a href="/tag?tag={{ tag }}">{{ tag.title }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+
+
