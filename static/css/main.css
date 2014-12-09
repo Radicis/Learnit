@@ -73,7 +73,7 @@ header #search-form{
 }
 
 .main-content{
-	height:500px;
+	min-height:500px;
 }
 
 .right-content{
@@ -116,6 +116,11 @@ header #search-form{
 	background-color:#FFE6E6;
 }
 
+.comment-posted{
+	color:#999;
+	font-size:.8em;
+}
+
 .posts-container .tags li{
 	display:block;
 	width:50px;
@@ -128,14 +133,16 @@ header #search-form{
 	border:1px solid #999;
 }
 
+.comment-container{
+
+}
+
 footer{
 	clear:both;
 	text-align:center;
 	border-top:1px solid #ccc;
 	font-size:0.75em;
 }
-
-
 
 
 

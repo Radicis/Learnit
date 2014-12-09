@@ -19,6 +19,13 @@ class Post(db.Model):
 	answered = db.BooleanProperty(default=False)
 	type = db.StringProperty(required=True)
 
+class Comment(db.Model):
+	posted_by = db.UserProperty(required=True)
+	body = db.TextProperty(required=True)
+	parent_post = db.IntegerProperty(required=True)	
+	parent_comment = db.IntegerProperty()
+	posted = db.DateTimeProperty(required=True, auto_now_add=True)
+	
 class LearnUsers(db.Model):
 	pass
 
@@ -28,7 +35,7 @@ class LearnUsers(db.Model):
 class MainHandler(webapp2.RequestHandler):
 	def get(self):		
 		
-		user = users.get_current_user()		
+		user = users.get_current_user()	
 		
 		posts_title = 'Latest'		
 		
@@ -105,7 +112,10 @@ class ViewPost(webapp2.RequestHandler):
 		user = users.get_current_user()
 		
 		html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
-		html += template.render('templates/view.html', {'post':post})
+		
+		comments = Comment.all().filter('parent_post =', post_id)
+		
+		html += template.render('templates/view.html', {'post':post, 'comments':comments})
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
 		
@@ -183,7 +193,16 @@ class Search(webapp2.RequestHandler):
 		
 		self.response.write(html)
 		
-	
+class AddComment(webapp2.RequestHandler):
+	def post(self):
+		
+		user = users.get_current_user()
+		body = self.request.get('body')	
+		parent = long(self.request.get('parent'))
+		comment_info = Comment(posted_by=user, body=body, parent_post=parent)
+		time.sleep(3)
+		db.put(comment_info)
+		self.redirect('/view?post=' + str(parent))
 		
 class DeletePost(webapp2.RequestHandler):
 	def post(self):
@@ -196,8 +215,9 @@ class About(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/post', WritePost),
 							   ('/makepost', MakePost),
+							   ('/comment', AddComment),
 							   ('/view', ViewPost),
-							   ('/delete', DeletePost),
+							   ('/delete', DeletePost),							   
 							   ('/unanswered', Unanswered),
 							   ('/tags', ViewTags),	
 							   ('/tag', ViewTag),
