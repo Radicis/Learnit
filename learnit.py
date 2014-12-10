@@ -83,9 +83,6 @@ class MainHandler(webapp2.RequestHandler):
 		html += template.render('templates/posts.html', {'posts':GetLatestPosts(1000)})
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
-#		else:
-			#self.redirect(users.create_login_url(self.request.uri))
-			
 
 			
 class WritePost(webapp2.RequestHandler):
@@ -96,7 +93,7 @@ class WritePost(webapp2.RequestHandler):
 		user = users.get_current_user()
 		
 		if user:
-			html = MakeIndex(self, 'Write Post')
+			html = MakeIndex(self, 'Make a ' + type)
 			if type == 'link':
 				html += template.render('templates/make-link.html', {})
 			elif type == 'post':
@@ -228,8 +225,7 @@ class ViewTag(webapp2.RequestHandler):
 class Search(webapp2.RequestHandler):
 	def post(self):
 		
-		searchTerm = self.request.get('search').lower()
-		
+		searchTerm = self.request.get('search').lower()		
 	
 		posts = Post.all().filter('tags =', searchTerm).order('-posted').fetch(1000)
 		
@@ -263,13 +259,12 @@ class MyQuestions(webapp2.RequestHandler):
 
 class AddLike(webapp2.RequestHandler):
 	def get(self):
-		id = long(self.request.get('id'))
-		#type=self.request.get('type')
+		id = long(self.request.get('id'))		
 		
 		user = users.get_current_user()
 		
-		#if type == 'post':
 		post = Post.get_by_id(id)
+		
 		if user.user_id() in post.liked_by:
 			pass
 		else:
