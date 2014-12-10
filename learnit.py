@@ -43,6 +43,32 @@ class LearnUsers(db.Model):
 # --- End Datastore Declarations --- #
 
 
+def MakeIndex(self, title):
+	
+	user = users.get_current_user()	
+		
+	posts_title = title
+	
+	html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/'), 'login_url': users.create_login_url(self.request.uri),'sideposts':GetLatestPosts(5), 'latesttags':GetLatestTags(10)})	
+	
+	return html
+
+def GetLatestPosts(num):
+	posts = Post.all().order('-posted').fetch(num)
+	return posts
+
+def GetLatestTags(num):
+	
+	posts = GetLatestPosts(num)
+	
+	tags = []
+		
+	for post in posts:
+		for tag in post.tags:
+			if tag not in tags:
+				tags.append(tag)
+	return tags
+
 class MainHandler(webapp2.RequestHandler):
 	def get(self):		
 		
@@ -50,12 +76,11 @@ class MainHandler(webapp2.RequestHandler):
 		
 		posts_title = 'Latest'	
 
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/'), 'login_url': users.create_login_url(self.request.uri)})	
-			
-		posts = Post.all().order('-posted').fetch(1000)
+		html = MakeIndex(self, 'Latest')			
+		
 		#query().order
 
-		html += template.render('templates/posts.html', {'posts':posts})
+		html += template.render('templates/posts.html', {'posts':GetLatestPosts(1000)})
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
 #		else:
@@ -71,7 +96,7 @@ class WritePost(webapp2.RequestHandler):
 		user = users.get_current_user()
 		
 		if user:
-			html = template.render('templates/index.html', {'user': user, 'logout_url': users.create_logout_url('/')})
+			html = MakeIndex(self, 'Write Post')
 			if type == 'link':
 				html += template.render('templates/make-link.html', {})
 			elif type == 'post':
@@ -139,7 +164,7 @@ class ViewPost(webapp2.RequestHandler):
 		post = Post.get_by_id(post_id)
 		user = users.get_current_user()
 		
-		html = template.render('templates/index.html', {'posts_title': post.title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		html = MakeIndex(self, post.title)
 		
 		comments = Comment.all().filter('parent_post =', post.key().id()).fetch(1000)
 		
@@ -151,12 +176,10 @@ class ViewPost(webapp2.RequestHandler):
 		
 class Unanswered(webapp2.RequestHandler):
 	def get(self):
-		user = users.get_current_user()		
-		
-		posts_title = 'Unanswered'		
+			
 		post_type = 'question'
 		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})	
+		html = MakeIndex(self, 'Unanswered')
 		#watch the space before = it is needed
 		posts = Post.all().filter('type =', post_type).filter('answered =', False).order('-posted').fetch(10000)
 		
@@ -168,10 +191,8 @@ class Unanswered(webapp2.RequestHandler):
 
 class ViewTags(webapp2.RequestHandler):
 	def get(self):
-		user = users.get_current_user()
-		posts_title = "Tags"
 		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		html = MakeIndex(self, 'Tags')
 		
 		posts = Post.all().order('-posted').fetch(1000)
 		
@@ -191,12 +212,9 @@ class ViewTags(webapp2.RequestHandler):
 class ViewTag(webapp2.RequestHandler):
 	def get(self):
 		
-		user = users.get_current_user()
 		tag = self.request.get('tag')
 		
-		posts_title = tag
-		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		html = MakeIndex(self, tag)
 			
 		posts = Post.all().filter('tags = ', tag).order('-posted').fetch(10)
 		
@@ -209,14 +227,13 @@ class ViewTag(webapp2.RequestHandler):
 		
 class Search(webapp2.RequestHandler):
 	def post(self):
-		user = users.get_current_user()
+		
 		searchTerm = self.request.get('search').lower()
 		
-		posts_title = "Search Results"
-		
+	
 		posts = Post.all().filter('tags =', searchTerm).order('-posted').fetch(1000)
 		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		html = MakeIndex(self, 'Results')
 		
 		html += template.render('templates/posts.html', {'posts':posts})
 		
@@ -231,13 +248,12 @@ class DeletePost(webapp2.RequestHandler):
 
 class MyQuestions(webapp2.RequestHandler):
 	def get(self):
-		user = users.get_current_user()
-		
-		posts_title = "My Questions"
+
+		user=users.get_current_user()
 		
 		posts = Post.all().filter('uploaded_by =', user).order('-posted').fetch(1000)
 		
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+		html = MakeIndex(self, 'My Questions')
 		
 		html += template.render('templates/posts.html', {'posts':posts})
 		
@@ -270,11 +286,8 @@ class AddLike(webapp2.RequestHandler):
 		
 class About(webapp2.RequestHandler):
 	def get(self):
-		user = users.get_current_user()
-		
-		posts_title = "About"		
-				
-		html = template.render('templates/index.html', {'posts_title': posts_title, 'user': user, 'logout_url': users.create_logout_url('/')})
+			
+		html = MakeIndex(self, 'About')
 		
 		html += template.render('templates/about.html', {})
 		

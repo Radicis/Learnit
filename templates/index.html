@@ -26,12 +26,32 @@
 					<li><a href="/about">About</a></li>
 				</ul>
 			</nav>
-			<form id="search-form" action="/search" method="POST" enctype="multipart/form-data">
-				<input type="text" name="search" placeholder="Tag Search" required>
-				 <input class="searchbutton" type="submit" value="Search">
-			</form>	<!-- End Search form -->
 		</header>
 		<div class="main-content"><!-- Begin content area --->
+			<div class="side-content">
+
+						<form id="search-form" action="/search" method="POST" enctype="multipart/form-data">
+							<input type="text" name="search" placeholder="Tag Search" required>
+							 <input class="searchbutton" type="submit" value="Search">
+						</form>	<!-- End Search form -->
+
+					<div class="top-tags clear-fix">
+						<h3>Top Tags</h3>
+						<ul>
+							{% for tag in latesttags %}
+								<li><a href="">{{ tag.title|slice:"20" }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="top-posts clear-fix">
+						<h3>Top Posts</h3>
+						<ul>
+							{% for post in sideposts %}
+								<li><a href="">{{ post.title|slice:"20" }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
 			<div class="right-content">
 				<div class="right-user">
 					<div class="user">						

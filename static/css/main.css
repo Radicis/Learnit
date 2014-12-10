@@ -1,12 +1,15 @@
 @import URL("reset.css");
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
 
+
+
+
 body{
 	font-size:14px;
 	font-family: 'Open Sans', sans-serif;
 	font-weight:400;
 	color:#2a2a2a;
-	background-color:#fff;
+	background-color:#fefefe;
 	
 }
 
@@ -56,7 +59,7 @@ h3{
 header{	
 	overflow:Auto;
 	border:1px groove #999;
-	padding:10px;
+	padding:5px 5px 5px 15px;
 	-webkit-box-shadow: #ccc 0 1px 0;
 	-moz-box-shadow: #ccc 0 1px 0;
 	box-shadow: #ccc 0 1px 0;	
@@ -71,7 +74,8 @@ header{
 
 header .logo{
 	float:left;
-	color:#4775FF;	
+	color:#4775FF;
+	margin-left:40px;
 }
 
 header .logo span{
@@ -89,7 +93,7 @@ header nav ul{
 	margin:0;
 	padding:0;
 	overflow:auto;
-	margin-left:10px;
+	margin-left:70px;
 }
 
 header nav ul li{
@@ -105,13 +109,17 @@ header nav ul li a{
 }
 
 
-#search-form{
-	float:right;
+#search-form{	
 	padding:8px 15px; 
     border:0px solid #dbdbdb;
 }
 
+#search-form input{
+	width:120px;
+}
+
 #search-form .searchbutton{
+	width:50px;
 	position:relative;
     padding:1px 6px;
     left:-6px;
@@ -130,8 +138,53 @@ header nav ul li a{
 
 .main-content{
 	margin:auto;
-	width:90%;
+	width:100%;
 	padding-top:10px;	
+}
+
+.side-content{
+	float:left;
+	width:220px;
+	padding:10px;
+	height:100%;	
+}
+
+.top-tags ul{
+	list-style:none;
+	margin-left:-30px;
+}
+
+.top-tags ul li{
+	float:left;
+	margin-bottom:10px;
+}
+
+.top-tags a{
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	border:1px solid #999;
+	-webkit-box-shadow: #999 0 1px 0;
+	-moz-box-shadow: #999 0 1px 0;
+	box-shadow: #999 0 1px 0;
+	background-color:#fff;
+	padding:2px 4px 2px 4px;
+	margin:3px;	
+
+		background: -moz-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%, rgba(216,225,231,0.39) 50%, rgba(181,198,208,0.39) 51%, rgba(224,239,249,0.26) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(242,246,248,0.52)), color-stop(50%,rgba(216,225,231,0.39)), color-stop(51%,rgba(181,198,208,0.39)), color-stop(100%,rgba(224,239,249,0.26))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* IE10+ */
+	background: linear-gradient(135deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#85f2f6f8', endColorstr='#42e0eff9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	
+}
+
+
+.top-posts ul{
+	list-style:none;
+	margin-left:-30px;
 }
 
 .right-content{
@@ -181,7 +234,8 @@ header nav ul li a{
 }
 
 .posts-container{
-	margin-right:25%;
+	margin-right:22%;
+	margin-left:240px;
 }
 
 .posts-container ul{

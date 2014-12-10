@@ -1,0 +1,5 @@
+to do
+
+write a get-latest method that returns a list of posts
+
+write seperate methods to get types of posts
