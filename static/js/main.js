@@ -15,9 +15,6 @@ $.ajax({
 
 $(document).ready(function(){
 	
-
-
-	
 	$("#makepost").click(function(){
 	  $("#right-make-post-inner").slideToggle();
 	}); 
