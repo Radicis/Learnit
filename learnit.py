@@ -77,8 +77,6 @@ class MainHandler(webapp2.RequestHandler):
 		posts_title = 'Latest'	
 
 		html = MakeIndex(self, 'Latest')			
-		
-		#query().order
 
 		html += template.render('templates/posts.html', {'posts':GetLatestPosts(1000)})
 		html += template.render('templates/footer.html', {})
