@@ -9,16 +9,18 @@ from google.appengine.ext import db
 #from time import strftime
 from google.appengine.api import urlfetch
 
+
 import sys
 sys.path.insert(0, 'libs')
 
 from bs4 import BeautifulSoup
 
+
 # --- Datastore declarations --- #
  
 class Post(db.Model):
 	uploaded_by = db.UserProperty(required=True)		
-	title = db.StringProperty(required=True)
+	title = db.StringProperty(required=True, multiline=True)
 	body = db.TextProperty()
 	url = db.LinkProperty()
 	tags = db.StringListProperty(required=True)
@@ -36,15 +38,22 @@ class Comment(db.Model):
 	parent_comment = db.IntegerProperty()
 	posted = db.DateTimeProperty(required=True, auto_now_add=True)
 	likes = db.IntegerProperty(default=0)
-	
-class LearnUsers(db.Model):
-	pass
+'''	
+class User(db.Model):
+	username = db.StringProperty(required=True)
+	#isbanned = db.BooleanProperty(default=False)
+	#isadmin = db.BooleanProperty(default=False)
+	#userID =  db.IntegerProperty(default=0)
+	#avatar = db.BlobProperty()
+	password = db.StringProperty(required=True)
 
+'''
 # --- End Datastore Declarations --- #
 
 
 def MakeIndex(self, title):
 	
+
 	user = users.get_current_user()	
 		
 	posts_title = title
@@ -110,7 +119,7 @@ class MakePost(webapp2.RequestHandler):
 		
 		type = self.request.get('type')		
 		
-		post_title = self.request.get('title',default_value='') 
+		post_title = self.request.get('title',default_value='').lstrip()
 		post_body = self.request.get('body',default_value='') 
 		post_tags = self.request.get('tags',default_value='').lower().split()
 
@@ -119,7 +128,7 @@ class MakePost(webapp2.RequestHandler):
 			response = urllib2.urlopen(url)
 			html = response.read()	
 			soup = BeautifulSoup(html)		
-			title = str(soup.title.string)
+			title = str(soup.title.string).lstrip()
 			post_info = Post(type=type, title=title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user(), url=url)
 		else:
 			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user())	
@@ -285,6 +294,30 @@ class About(webapp2.RequestHandler):
 		html += template.render('templates/footer.html', {})
 		
 		self.response.write(html)
+'''
+class Register(webapp2.RequestHandler):
+	def get(self):
+		html = MakeIndex(self, 'Register')
+		html += template.render('templates/register.html', {})
+			
+		html += template.render('templates/footer.html', {})
+			
+		self.response.write(html)
+	def post(self):
+		username = self.request.get('username',default_value='') 
+		password = self.request.get('password',default_value='') 
+		
+		users = User.all().fetch(1000)
+		
+		for item in users:		
+			if username == item.username:		
+				self.redirect('/')
+				
+		user = User(username=username, password=password)		
+		db.put(user)
+		
+		self.redirect('/')
+'''
 		
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/post', WritePost),
@@ -297,6 +330,7 @@ app = webapp2.WSGIApplication([('/', MainHandler),
 							   ('/myquestions', MyQuestions),
 							   ('/tags', ViewTags),	
 							   ('/tag', ViewTag),
+							   #('/register', Register),
 							   ('/like', AddLike),
 							   ('/about', About),							   
 							   ],

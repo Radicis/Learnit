@@ -142,6 +142,10 @@ header nav ul li a:hover{
 		background-color:#fefefe;
 		margin-top:4px;
 	} 
+	
+	#nav-toggle.active  {
+  transform: rotate(45deg);
+}
 
 
 

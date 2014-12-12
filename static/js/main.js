@@ -1,5 +1,5 @@
 
-	/* ----  AXAJ call to get randomuser.me JSON object */
+	/* ----  AXAJ call to get randomuser.me JSON object 
 $.ajax({
 	 //Request 5 results
 	  url: 'http://api.randomuser.me/?results=7',
@@ -12,7 +12,7 @@ $.ajax({
 		}
 	  }
 });
-
+*/
 $(document).ready(function(){
 	
 	$("#makepost").click(function(){
@@ -20,6 +20,7 @@ $(document).ready(function(){
 	}); 
 	$("#nav-toggle").click(function(){
 	  $("#main-nav").slideToggle();
+	  this.classList.toggle("active");
 	}); 
 	
 	$('.posts-container').profanityFilter({
