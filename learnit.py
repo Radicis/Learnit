@@ -6,7 +6,6 @@ from google.appengine.api import images
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import db
-#from time import strftime
 from google.appengine.api import urlfetch
 
 

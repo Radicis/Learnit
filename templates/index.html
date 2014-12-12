@@ -47,7 +47,7 @@
 						<h3>Top Tags</h3>
 						<ul>
 							{% for tag in latesttags %}
-								<li><a href="">{{ tag.title|slice:"18" }}</a></li>
+								<li><a href="/tag?tag={{ tag }}">{{ tag.title|slice:"18" }}</a></li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -55,7 +55,11 @@
 						<h3>Top Posts</h3>
 						<ul>
 							{% for post in sideposts %}
-								<li><a href="">{{ post.title|slice:"22" }}..</a></li>
+								{% if post.type == 'link' %}
+									<li><a href="{{ post.url }}" target="_blank">{{ post.title|slice:"22" }}..</a></li>
+								{% else %}	
+									<li><a href="/view?post={{ post.key.id }}" >{{ post.title|slice:"22" }}..</a></li>
+								{% endif %}
 							{% endfor %}
 						</ul>
 					</div>

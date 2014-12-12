@@ -142,11 +142,6 @@ header nav ul li a:hover{
 		background-color:#fefefe;
 		margin-top:4px;
 	} 
-	
-	#nav-toggle.active  {
-  transform: rotate(45deg);
-}
-
 
 
 #search-form{	
@@ -243,6 +238,7 @@ header nav ul li a:hover{
 .right-content #right-make-post-inner{	
 	border:2px solid #207cca;
 	padding:10px;
+	margin-right:10px;
 	background-color:#ccc;
 	border:1px solid #999;
 	-webkit-border-radius: 7px;
@@ -259,6 +255,7 @@ header nav ul li a:hover{
 	background: -ms-linear-gradient(-45deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* IE10+ */
 	background: linear-gradient(135deg,  rgba(242,246,248,0.52) 0%,rgba(216,225,231,0.39) 50%,rgba(181,198,208,0.39) 51%,rgba(224,239,249,0.26) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#85f2f6f8', endColorstr='#42e0eff9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .right-make-post a{
@@ -319,7 +316,7 @@ header nav ul li a:hover{
 	margin-right:22%;
 	margin-left:230px;
 	color:#333;
-
+	margin-bottom:20px;
 }
 
 .posts-container ul{
@@ -328,7 +325,7 @@ header nav ul li a:hover{
 
 .posts{
 	list-style:none;	
-
+	
 }
 
 .posts li{
@@ -374,7 +371,7 @@ content:" ";
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:1px solid #555;
+
 	
 }
 
@@ -418,22 +415,41 @@ content:" ";
 	font-size:.8em;
 }
 
-.posts .post-type{
-	position:absolute;	
-	right:5px;
-	top:20px;
-	display:block;
-	text-align:center;
-	width:15%;
-	color:#CC7A00;
-	font-weight:700;
-	font-size:1.25em;
-	position:absolute;
-opacity:0.5;	
+
+#view-post{
+	background-color:#fefefe;
+	border:1px solid #999;
+	padding:10px;
 }
 
-.posts .post-body{
+#view-post .comment{
+	margin-top:10px;
+	border-top:1px solid #ccc;
+	padding-top:10px;
+}
+
+#post-body{
+	margin-bottom:10px;
+}
+
+#view-post .likes{
+	font-size:.8em;
+	color:#999;
+}
+
+#comment, #comment-comment{
 	padding:10px;
+	cursor:pointer;
+	font-size:.85em;
+}
+
+.comment-nested{
+	border-top:1px solid #ccc;
+}
+
+.posted-by{
+	font-size:.8em;
+	color:#999;
 }
 
 .post-user{
@@ -460,8 +476,7 @@ opacity:0.5;
 	float:left;
 	font-size:.8em;
 	padding-top:5px;
-	padding-right:10px;
-	
+	padding-right:10px;	
 }
 
 .posts .post-comments a{
@@ -639,10 +654,7 @@ footer{
 		visibility:hidden;
 	}
 	
-	.posts .post-type{
-		bottom:5px;
-		top:auto;
-	}
+
 	
 	.posts .user-image{
 		width:30px;
