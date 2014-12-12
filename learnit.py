@@ -273,9 +273,7 @@ class AddLike(webapp2.RequestHandler):
 			comment = Comment.get_by_id(id)	
 			comment.likes += 1
 			comment.put()'''
-		#else:
-		#	pass
-		self.redirect('/view?post=' + str(id))
+		self.redirect(self.request.referer)
 		
 class About(webapp2.RequestHandler):
 	def get(self):

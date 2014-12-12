@@ -18,7 +18,7 @@ $(document).ready(function(){
 	$("#makepost").click(function(){
 	  $("#right-make-post-inner").slideToggle();
 	}); 
-	$(".logo").click(function(){
+	$("#nav-toggle").click(function(){
 	  $("#main-nav").slideToggle();
 	}); 
 	

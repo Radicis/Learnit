@@ -117,6 +117,34 @@ header nav ul li a:hover{
 	color:#fefefe;
 }
 
+	#nav-toggle{
+		position:absolute;
+		text-indent:-99999px;
+		top:-3px;
+		right:0;
+
+		width:40px;
+		height:40px;
+		cursor:pointer;
+		overflow:hidden;
+		line-height:1em;
+		border:0;		
+	}
+	
+	#line-container{
+	
+	 }
+	 
+	 #line-container span{
+		display:block;
+		width:30px;
+		height:4px;
+		background-color:#fefefe;
+		margin-top:4px;
+	} 
+
+
+
 #search-form{	
 	display:block;
    
@@ -528,7 +556,7 @@ footer{
 	}
 	header  .logo{
 		display:block;
-		width:100%;
+
 		float:none;
 		text-align:center;
 	}
@@ -596,8 +624,13 @@ footer{
 		display:none;
 	}
 	
-	header .logo{
-		cursor:pointer;
+
+	.posts-container{
+		padding:10px;
+	}
+	
+	.posts-container ul{
+		margin-left:-45px;
 	}
 	
 	.post-info{
@@ -609,6 +642,51 @@ footer{
 		bottom:5px;
 		top:auto;
 	}
+	
+	.posts .user{
+		width:30px;
+		height:30px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;	
+	}
+	
+	.posts li > div{
+		margin-left:43px;
+	
+	}
+	
+	.posts li:before{
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 5px 10px 5px 0;
+		border-color: transparent #fefefe transparent transparent;
+		position:absolute;
+		left:36px;
+		top:30%;
+		z-index:999;
+		content:" ";
+		}
+
+		.posts li:after{
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 6px 11px 6px 0;
+		border-color: transparent #999 transparent transparent;
+		position:absolute;
+		left:35px;
+		top:29%;
+		z-index:111;
+		content:" ";
+		}
+		
+		#nav-toggle{
+			display:block;
+			visibility:show;
+		
+		}
 
 }
 
