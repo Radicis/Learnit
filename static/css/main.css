@@ -57,6 +57,7 @@ h3{
 }
 
 header{	
+	height:40px;
 	overflow:Auto;
 	border-bottom:1px solid #666;
 	padding:5px 5px 5px 15px;
@@ -122,7 +123,6 @@ header nav ul li a:hover{
 		text-indent:-99999px;
 		top:-3px;
 		right:0;
-
 		width:40px;
 		height:40px;
 		cursor:pointer;
@@ -360,7 +360,7 @@ z-index:111;
 content:" ";
 }
 
-.posts .user{
+.posts .user-image{
 	width:50px;
 	height:50px;
 	top:15%;
@@ -380,7 +380,7 @@ content:" ";
 	margin-left:72px;
 	overflow:auto;
 	position:relative;
-	padding:10px;
+	padding:3px 0 3px 7px;
 	background-color:#fefefe;
 	border:1px solid #ccc;
 	-webkit-border-radius: 10px;
@@ -406,10 +406,7 @@ content:" ";
 }
 .post-info{
 	color:#999;
-	float:right;
-	position:absolute;	
-	right:5px;
-	bottom:5px;
+	float:left;
 	display:block;
 }
 
@@ -643,7 +640,7 @@ footer{
 		top:auto;
 	}
 	
-	.posts .user{
+	.posts .user-image{
 		width:30px;
 		height:30px;
 		-webkit-border-radius: 15px;
