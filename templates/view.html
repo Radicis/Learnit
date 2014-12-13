@@ -14,7 +14,7 @@
 	{% if comment.parent_comment == 1 %}
 		<div class="comment">
 			<div id="comment-body">{{ comment.body }}
-			<div class="posted-by">Posted by: {{ comment.posted_by }}</div></div>
+			<div class="posted-by">{{ comment.posted_by }} at {{ comment.posted }}</div></div>
 			<div id="comment-comment"><a>Reply</a></div>
 			<form id="comment-nest-form" class="hidden" action="/comment" method="POST" enctype="multipart/form-data">
 				<textarea name="body" rows="1" cols="30" placeholder="Post comment here"></textarea><br>
@@ -27,7 +27,7 @@
 				{% if comment2.parent_comment == comment.key.id  %}
 					<div class="comment-nested">
 					<p>{{ comment2.body }}
-					<span class="comment-posted">Posted by: {{ comment2.posted_by }}</span></p>
+					<span class="comment-posted">{{ comment2.posted_by }} at {{ comment2.posted }}</span></p>
 					</div>
 				{% endif %}				
 			{% endfor %}

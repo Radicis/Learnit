@@ -50,8 +50,7 @@ class User(db.Model):
 # --- End Datastore Declarations --- #
 
 
-def MakeIndex(self, title):
-	
+def MakeIndex(self, title):	
 
 	user = users.get_current_user()	
 		
@@ -65,6 +64,7 @@ def GetLatestPosts(num):
 	posts = Post.all().order('-posted').fetch(num)
 	return posts
 
+	
 def GetLatestTags(num):
 	
 	posts = GetLatestPosts(num)
@@ -84,8 +84,11 @@ class MainHandler(webapp2.RequestHandler):
 		
 		posts_title = 'Latest'	
 
-		html = MakeIndex(self, 'Latest')			
+		html = MakeIndex(self, 'Latest')	
 
+		posts = GetLatestPosts(1000)
+		
+		
 		html += template.render('templates/posts.html', {'posts':GetLatestPosts(1000)})
 		html += template.render('templates/footer.html', {})
 		self.response.write(html)
@@ -126,8 +129,11 @@ class MakePost(webapp2.RequestHandler):
 			url = post_title
 			response = urllib2.urlopen(url)
 			html = response.read()	
-			soup = BeautifulSoup(html)		
-			title = str(soup.title.string).lstrip()
+			soup = BeautifulSoup(html)	
+			#lstrip generates an error on some sites
+			#title = str(soup.title.string).lstrip()
+			title = post_title
+			
 			post_info = Post(type=type, title=title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user(), url=url)
 		else:
 			post_info = Post(type=type, title=post_title, body=post_body, tags=post_tags, uploaded_by=users.get_current_user())	
@@ -253,7 +259,7 @@ class MyQuestions(webapp2.RequestHandler):
 
 		user=users.get_current_user()
 		
-		posts = Post.all().filter('uploaded_by =', user).order('-posted').fetch(1000)
+		posts = Post.all().filter('uploaded_by =', user).filter('type =', 'question').order('-posted').fetch(1000)
 		
 		html = MakeIndex(self, 'My Questions')
 		

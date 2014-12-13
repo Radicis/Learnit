@@ -14,6 +14,10 @@ $.ajax({
 });
 
 $(document).ready(function(){
+
+	$('#page_container').pajinate({items_per_page : 6});
+	
+			
 	
 	$("#makepost").click(function(){
 	  $("#right-make-post-inner").slideToggle();
