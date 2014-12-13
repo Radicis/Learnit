@@ -151,6 +151,7 @@ header nav ul li a:hover{
 
 #search-form input{
 	width:130px;
+	border:1px solid #ccc;
 }
 
 #search-form .searchbutton{
@@ -361,6 +362,10 @@ z-index:111;
 content:" ";
 }
 
+.posts-container h2{
+	color:#0066FF;
+}
+
 .page_navigation{
 	text-align:center
 }
@@ -429,6 +434,9 @@ content:" ";
 	background-color:#fefefe;
 	border:1px solid #999;
 	padding:10px;
+		-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 }
 
 #view-post .comment{
